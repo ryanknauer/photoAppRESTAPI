@@ -21,12 +21,13 @@ STYLE_CHOICES = sorted((item, item) for item in get_all_styles())
 class Snippet(models.Model):
     Latitude = models.DecimalField(max_digits=8, decimal_places=3, null=True)
     Longitude = models.DecimalField(max_digits=8, decimal_places=3, null=True)
-    photo = models.ImageField(upload_to='photos/', null=True)
+    photo = models.FileField(upload_to='photos/', null=True)
     rank = models.IntegerField(default=1)
     votes = models.IntegerField(default=0)
     upVotes = models.ManyToManyField(User, related_name='upVotedOn')
     downVotes = models.ManyToManyField(User, related_name='downVotedOn')
     owner = models.ForeignKey('auth.User', related_name='snippets')
+    mediaType = models.CharField(max_length=10, null=False)
     class Meta:
         ordering = ('-votes', '-id')
 
