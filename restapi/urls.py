@@ -24,6 +24,9 @@ from django.conf import settings
 
 
 
+
+
+
 urlpatterns = [
     url(r'^quickstart/(?P<sortmethod>(top|new)?)/?$', views.SnippetList.as_view()),
     url(r'^quickstart/(?P<pk>[0-9]+)/$', views.SnippetDetail.as_view()),
@@ -33,12 +36,15 @@ urlpatterns = [
     url(r'^users/$', views.UserList.as_view()),
     url(r'^register/$', views.Register.as_view()),
     url(r'^users/(?P<pk>[0-9]+)/$', views.UserDetail.as_view()),
+ 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+from rest_framework.authtoken import views
+urlpatterns += [url(r'^get-token/', views.obtain_auth_token)]
 
 urlpatterns += [
     url(r'^api-auth/', include('rest_framework.urls',
-                               namespace='rest_framework')),
-]
+                               namespace='rest_framework'))]
 
 
 from django.contrib.staticfiles import views

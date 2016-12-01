@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'quickstart.apps.QuickstartConfig',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -118,6 +119,17 @@ USE_L10N = True
 USE_TZ = True
 
 
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+        
+    )
+}
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
@@ -126,6 +138,11 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = '/Users/RyanKnauer/restapi/restapi/media/'
 
 MEDIA_URL = '/media/'
+
+
+
+
+
 
 
 

@@ -10,8 +10,14 @@ from pygments import highlight
 from django.contrib.auth.models import User
 from django.db.models.signals import pre_delete
 from django.dispatch.dispatcher import receiver
+from rest_framework.authtoken.models import Token
 
-# Create your models here.
+# Create your models here.from django.conf import settings
+from django.conf import settings
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+
 
 
 LEXERS = [item for item in get_all_lexers() if item[1]]
@@ -39,6 +45,7 @@ def snippet_delete(sender, instance, **kwargs):
         instance.photo.delete(False)
 
 
+
 class Comment(models.Model):
     comment = models.TextField()
     owner = models.ForeignKey('auth.User', related_name='comments')
@@ -47,6 +54,11 @@ class Comment(models.Model):
         ordering = ('snippet',)
 
 
-'''    def save(self, *args, **kwargs):
-        super(Snippet, self).save(*args, **kwargs)'''
-    
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)
+
+
+
+
